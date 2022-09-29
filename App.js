@@ -1,5 +1,5 @@
 import { StatusBar } from 'expo-status-bar';
-import { Alert, Button, Image, SafeAreaView, StyleSheet, Text, TouchableHighlight, TouchableWithoutFeedback } from 'react-native';
+import { Alert, Button, Image, Platform, SafeAreaView, StyleSheet, Text, TouchableWithoutFeedback, View } from 'react-native';
 
 export default function App() {
   const handleTextPress = () => console.log('Click');
@@ -9,7 +9,11 @@ export default function App() {
       { text: 'Отмена', onPress: () => console.log('Clicked cancel') },
     ]);
 
-  const handleBtnPress2 = () => Alert.prompt('Example Alert', 'Message', text => console.log(text));
+  const handleBtnPress2 = () =>
+    Alert.prompt('Example Alert', 'Message', [
+      { text: 'Да', onPress: text => console.log(text) },
+      { text: 'Отмена', onPress: () => console.log('Clicked cancel') },
+    ]);
 
   return (
     <SafeAreaView style={styles.container}>
@@ -36,6 +40,10 @@ export default function App() {
           }}
         />
       </TouchableWithoutFeedback>
+
+      <View style={styles.box}>
+        <Text>Box</Text>
+      </View>
       <StatusBar style='auto' />
     </SafeAreaView>
   );
@@ -48,5 +56,17 @@ const styles = StyleSheet.create({
   },
   text: {
     color: 'red',
+  },
+  box: {
+    backgroundColor: 'yellow',
+    width: '50%',
+    height: 150,
+    opacity: 0.9,
+    borderWidth: 2,
+    borderColor: 'red',
+    borderStyle: 'dotted',
+    position: 'absolute',
+    top: Platform.OS === 'ios' ? 170 : 150,
+    right: -150,
   },
 });
