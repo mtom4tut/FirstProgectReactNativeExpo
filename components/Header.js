@@ -11,8 +11,8 @@ export default function Header() {
 
 const styles = StyleSheet.create({
   header: {
-    paddingTop: 10,
-    height: 50,
+    paddingTop: 50,
+    height: 90,
     backgroundColor: 'silver',
   },
   text: {
