@@ -1,54 +1,41 @@
-import React, { useState } from 'react';
-import { FlatList, View } from 'react-native';
-import Header from './components/Header';
-import ListItem from './components/ListItem';
-import Form from './components/Form';
+import { useEffect, useCallback } from 'react';
+import { Text, View } from 'react-native';
+import { useFonts } from 'expo-font';
+import * as SplashScreen from 'expo-splash-screen';
+import Navigate from './navigate';
+
+import { gStyle } from './styles';
 
 export default function App() {
-  const [listOfItems, setListOfItems] = useState([
-    {
-      id: 0,
-      text: 'Купить молоко',
-    },
-    {
-      id: 1,
-      text: 'Купить сыр',
-    },
-    {
-      id: 2,
-      text: 'Купить мясо',
-    },
-  ]);
+  const [fontsLoaded] = useFonts({
+    'mt-bold': require('./assets/fonts/Montserrat-Bold.ttf'),
+    'mt-light': require('./assets/fonts/Montserrat-Light.ttf'),
+  });
 
-  const addHendler = text => {
-    setListOfItems(list => {
-      return [
-        {
-          text,
-          id: list.length,
-        },
-        ...list,
-      ];
-    });
-  };
+  useEffect(() => {
+    async function prepare() {
+      await SplashScreen.preventAutoHideAsync();
+    }
+    prepare();
+  }, []);
 
-  const deleteHandler = id => {
-    setListOfItems(list => {
-      return list.filter(item => item.id !== id);
-    });
-  };
+  const onLayoutRootView = useCallback(async () => {
+    if (fontsLoaded) {
+      await SplashScreen.hideAsync();
+    }
+  }, [fontsLoaded]);
+
+  if (!fontsLoaded) {
+    return (
+      <View>
+        <Text>Loading...</Text>
+      </View>
+    );
+  }
 
   return (
-    <View>
-      <Header />
-      <Form addHendler={addHendler} />
-      <View>
-        <FlatList
-          data={listOfItems}
-          renderItem={({ item }) => <ListItem el={item} deleteHandler={deleteHandler} />}
-          keyExtractor={item => item.id}
-        />
-      </View>
+    <View style={gStyle.container} onLayout={onLayoutRootView}>
+      <Navigate />
     </View>
   );
 }
