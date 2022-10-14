@@ -3,8 +3,10 @@ import { StyleSheet } from 'react-native';
 export const gStyle = StyleSheet.create({
   container: {
     flex: 1,
-    padding: 20,
-    paddingTop: 60,
+  },
+  main: {
+    padding: 14,
+    marginBottom: 70
   },
   title: {
     fontSize: 20,
