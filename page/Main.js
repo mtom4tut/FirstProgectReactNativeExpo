@@ -1,6 +1,7 @@
 import { useState } from 'react';
 import { FlatList, Image, Modal, StyleSheet, Text, TouchableOpacity, View } from 'react-native';
 import { AntDesign } from '@expo/vector-icons';
+import Form from '../components/Form';
 
 import { gStyle } from '../styles';
 
@@ -31,13 +32,22 @@ export default function Main({ navigation }) {
     },
   ]);
 
+  const addArticle = article => {
+    setNews(list => {
+      article.id = list.length.toString();
+      return [article, ...list];
+    });
+    setIsModal(false);
+  };
+
   return (
     <View style={gStyle.main}>
       <Modal visible={isModal}>
         <AntDesign name='closecircle' size={24} color='red' style={styles.icon} onPress={() => setIsModal(false)} />
 
-        <View>
-          <Text style={gStyle.title}>Форма добавления статей</Text>
+        <View style={gStyle.main}>
+          <Text style={[gStyle.title, styles.header]}>Форма добавления статей</Text>
+          <Form addArticle={addArticle} />
         </View>
       </Modal>
 
